@@ -8,12 +8,12 @@ This data accessible via this interface was kindly provided by the BC Safety Aut
 
 ### Accessing the data
 
-Log in to ubc.syzygy.ca or sfu.syzygy.ca (respectively) using your CWL. Open a new Terminal by clicking New > Terminal. Navigate to a directory of your choice and write
+Log in to [ubc.syzygy.ca](ubc.syzygy.ca) or [sfu.syzygy.ca](sfu.syzygy.ca) (respectively) using your CWL. Open a new Terminal by clicking New > Terminal. Navigate to a directory of your choice and write
 
     git clone https://github.com/bcdataca/bcsa-bcdata.git
     cd bcsa-bcdata
 
-Now go back to the main Jupyter window and open `Pull and Import BCSA Data.ipynb`. You can run each cell in the file by pressing Shift + Enter.  
+Now go back to the main Jupyter window and open `Pull and Import BCSA Data.ipynb`. You can run each cell in the file by pressing `Shift` + `Enter`.  
 
 ### Conditions for Use
 
