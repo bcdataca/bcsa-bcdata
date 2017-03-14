@@ -23,4 +23,5 @@ This information was provided expressly to those in attendance at the BC Data co
 
 ## Issues
 
-As of 13 March at 15:23 there still exists a permissions issue to be resolved.
+* As of 13 March at 15:23 there still exists a permissions issue to be resolved.
+* As of 13 March at 16:46 this issue was resolved.
