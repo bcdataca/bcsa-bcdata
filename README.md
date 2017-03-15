@@ -61,8 +61,8 @@ Data.ipynb`.
    1. there are no error messages in the notebook
    2. the last cell contains the output
 
-		{'2015': (6305, 34), '2016': (8172, 34)}
-		{'incident': (6390, 143)}
+	{'2015': (6305, 34), '2016': (8172, 34)}
+	{'incident': (6390, 143)}
 
 ### Options
 
