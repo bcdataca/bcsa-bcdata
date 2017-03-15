@@ -26,7 +26,7 @@ not necessary to explore the data using Python. Because Jupyter notebooks allow
 the user to load different kernels, once the data is downloaded to a user's
 syzygy account, it is possible to load the data into a Jupyter notebook running
 Python, R or Julia. See the above tutorials for instructions on how to switch
-kernels. For a tutorial on using Python, see for example [1], [2] or [3]. To
+kernels. For a tutorial on using Python, see for example [[1]], [[2]] or [[3]]. To
 brush up on rusty coding habits, check out projects like
 [ProjectEuclid](https://projecteuclid.org/) or
 [Advent of Code](https://adventofcode.com/). 
