@@ -5,7 +5,7 @@
 ### Introduction
 
 The data accessible via this interface was kindly provided by the BC Safety
-Authority in association with their lecture in the [BC Data Colloquium](//bcdata.ca). 
+Authority in association with their lecture in the [BC Data Colloquium](http://bcdata.ca). 
 
 The interface used to access this data is coded in Python using a
 [Jupyter](http://jupyter.org/) Notebook available through
@@ -23,9 +23,17 @@ Or, alternatively, reference the
 
 Note that while the code used to access the data is written in Python, it is
 not necessary to explore the data using Python. Because Jupyter notebooks allow
-the user to load different kernels, once the data is downloaded onto a user's
+the user to load different kernels, once the data is downloaded to a user's
 syzygy account, it is possible to load the data into a Jupyter notebook running
-Python, R or Julia. 
+Python, R or Julia. See the above tutorials for instructions on how to switch
+kernels. For a tutorial on using Python, see for example [1], [2] or [3]. To
+brush up on rusty coding habits, check out projects like
+[ProjectEuclid](https://projecteuclid.org/) or
+[Advent of Code](https://adventofcode.com/). 
+
+[1]: https://engineering.ucsb.edu/~shell/che210d/numpy.pdf
+[2]: https://www.youtube.com/playlist?list=PLYx7XA2nY5Gf37zYZMw6OqGFRPjB1jCy6
+[3]: https://www.codecademy.com/learn/python
 
 
 ### Accessing the data
@@ -61,8 +69,11 @@ Data.ipynb`.
 			{'2015': (6305, 34), '2016': (8172, 34)}
 			{'incident': (6390, 143)}
 
+#### Options
+
 The files, by default, are stored in the directory `bcsa-data/tmp/`. To change
-this behaviour, 
+this behaviour, you can change the value of the `target` variable to a
+different directory. 
    
 
 ### Conditions for Use
@@ -70,8 +81,3 @@ this behaviour,
 The following is a disclaimer on the use of the data.
 
 This information was provided expressly to those in attendance at the BC Data colloquium. This information is confidential and may not be disclosed without the prior written consent of BC Safety Authority.
-
-## Issues
-
-* As of 13 March at 15:23 there still exists a permissions issue to be resolved.
-* As of 13 March at 16:46 this issue was resolved.
