@@ -18,9 +18,14 @@ def bcsa(target='.'):
         pass
     print('Fetching files:\n{}'.format(bcsa_keys))
     # download $key to $target/$key
+    import os
     for key in bcsa_keys:
-        s3_anon.download_file(Bucket='bcsa-data',
-                              Key=key,
-                              Filename=target+'/'+key)
+        fn = target + '/' + key
+        if os.path.isfile(fn):
+            print('Warning: the file {} already exists: skipping download...'.format(fn))
+        else:
+            s3_anon.download_file(Bucket='bcsa-data',
+                                  Key=key,
+                                  Filename=target+'/'+key)
     return
 
