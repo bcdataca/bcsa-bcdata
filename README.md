@@ -50,28 +50,19 @@ using your CWL.
 
 		git clone https://github.com/bcdataca/bcsa-bcdata.git
 		cd bcsa-bcdata
+		pip install --user --upgrade boto3 botocore
 
 5. Close the terminal window and in the main Jupyter window, navigate to the
 directory above.
 6. Once inside the `bcsa-bcdata` directory, click to open `Pull and Import BCSA
 Data.ipynb`.
-7. Run the first cell by pressing `Shift` + `Enter`. 
-8. **Note:** if this script requires the pacakges `boto3` and `botocore`. If
-   these packages were not previously installed and have been installed by the
-   first cell, then the notebook **must be restarted** once the first cell has
-   **finished** executing. To restart the notebook:
-   1. Close the window
-   2. Click the checkbox next to the `Pull and Import...` file.
-   3. Click the `Shutdown` button above it
-   4. Re-open the file.
+7. Click on the `Kernel` menu item and click `Run All`.
+8. Verify that the download was successful by checking:
+   1. there are no error messages in the notebook
+   2. the last cell contains the output
 
-9. Click on the `Kernel` menu item and click `Run All`.
-10. Verify that the download was successful by checking:
-	1. there are no error messages in the notebook
-	2. the last cell contains the output
-
-			{'2015': (6305, 34), '2016': (8172, 34)}
-			{'incident': (6390, 143)}
+		{'2015': (6305, 34), '2016': (8172, 34)}
+		{'incident': (6390, 143)}
 
 ### Options
 
