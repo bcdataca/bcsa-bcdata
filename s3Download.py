@@ -29,3 +29,18 @@ def bcsa(target='.'):
                                   Filename=target+'/'+key)
     return
 
+
+def getAwsKeypair(directory=None):
+    """
+    getAwsKeypair expects two files named access.key and secret.key located in directory
+    e.g.
+    directory = '~/' or directory = '/Users/myUserName/' but NOT
+    direcotry = '~' or direcotry = '/Users/myUserName'
+    """
+    if directory is None:
+        directory = './'
+    with open(directory + 'access.key', 'r+') as fp:
+        access_key = fp.read()
+    with open(directory + 'secret.key', 'r+') as fp:
+        secret_key = fp.read()
+    return (access_key, secret_key)
