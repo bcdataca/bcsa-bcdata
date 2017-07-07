@@ -88,7 +88,7 @@ class BatchDownloader:
             if save_directory[-1] != '/':
                 save_directory += '/'
             self.parent_directory = save_directory
-        makedirs(self.parent_directory, exist_ok=False)
+        makedirs(self.parent_directory, exist_ok=True)
         print('Using save directory {}'.format(self.parent_directory))
         # set up max batch size
         if max_batch_size is None:
