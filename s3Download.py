@@ -22,7 +22,9 @@ def bcsa(target='.'):
     for key in bcsa_keys:
         fn = target + '/' + key
         if os.path.isfile(fn):
-            print('Warning: the file {} already exists: skipping download...'.format(fn))
+            exist_warning = 'Warning: the file {} already exists: ' + \
+                            'skipping download...'
+            print(exist_warning.format(fn))
         else:
             s3_anon.download_file(Bucket='bcsa-data',
                                   Key=key,
@@ -32,7 +34,8 @@ def bcsa(target='.'):
 
 def getAwsKeypair(directory=None):
     """
-    getAwsKeypair expects two files named access.key and secret.key located in directory
+    getAwsKeypair expects two files named access.key and secret.key located in
+    directory
     e.g.
     directory = '~/' or directory = '/Users/myUserName/' but NOT
     direcotry = '~' or direcotry = '/Users/myUserName'
@@ -44,6 +47,130 @@ def getAwsKeypair(directory=None):
     with open(directory + 'secret.key', 'r+') as fp:
         secret_key = fp.read()
     return (access_key, secret_key)
+
+
+def startS3SignedSession(access_key, secret_key,
+                         region='ca-central-1'):
+    import boto3
+    s3_signed = boto3.client('s3',
+                             region_name=region,
+                             aws_access_key_id=access_key,
+                             aws_secret_access_key=secret_key)
+    return s3_signed
+
+
+def listSubfolders(session, bucket, prefix, delimiter='/'):
+    result = session.list_objects_v2(Bucket=bucket,
+                                     Prefix=prefix,
+                                     Delimiter=delimiter)
+    return [o.get('Prefix') for o in result.get('CommonPrefixes')]
+
+
+def listObjectKeys(session, bucket, prefix, delimiter='/'):
+    result = session.list_objects_v2(Bucket=bucket,
+                                     Prefix=prefix,
+                                     Delimiter=delimiter)
+    return [o.get('Key') for o in result.get('Contents')]
+
+
+def getFileHierarchy(session, bucket, prefix, delimiter='/', verbose=True):
+    subFolders = listSubfolders(session, bucket, prefix, delimiter)
+    result = {sf.split('/')[-2]: None for sf in subFolders}
+    num_keys = len(result.keys())
+    for j, subfolderKey in enumerate(sorted(result.keys())):
+        if verbose and ((j % 10) == 0):
+            print('\rProportion complete: {}'.format(round(j/num_keys, 2)),
+                  end='')
+        result[subfolderKey] = listObjectKeys(session, bucket,
+                                              prefix+subfolderKey+'/',
+                                              delimiter)
+    print('\rdone!')
+    return result
+
+
+def uploadLocalToS3(local_file_directory,
+                    session, bucket, prefix,
+                    verbose=True):
+    """
+    uploadLocalToS3(local_file_directory, session, bucket,
+                    prefix, verbose[=True])
+    is a function that crawls a file directory on the local machine and
+    uploads files to a remote AWS bucket - preserving the directory
+    structure - if it does not find a corresponding match on AWS.
+    Input:
+    local_file_directory : the local file directory in which
+                           the files are found.
+                 session : the s3 session that has valid upload permissions
+                           (e.g., created using boto3)
+                  bucket : the S3 bucket to which uploading will be done
+                  prefix : the prefix for the bucket, where the files on
+                           remote should be found
+                 verbose : whether to be verbose while running.
+
+    Note that this function was taylor made to upload directories
+    where files are only stored in the leaves files in the leaves
+    of a file hierarchy. Hence, it is good for uploading directory
+    strucutres like the following, but would have to be adapted to
+    accommodate others.
+    Folder 1:
+        Folder 1A:
+            Folder 1AI:
+                File 1AI11
+                File 1AI12
+                File 1AI13
+            Folder 1AII:
+                File 1AII11
+                File 1AII12
+                File 1AII13
+                File 1AII14
+            Folder 1AIII:
+                File 1AIII11
+        Folder 1B:
+            File 1BI
+            File 1BII
+            File 1BIII
+            File 1BIV
+    Folder 2:
+        .
+        .
+        .
+    """
+    import os
+    if verbose:
+        print('constructing local walk object')
+    local_walk = os.walk(local_file_directory)
+    if verbose:
+        print('fetching remote directory structure')
+    remote_hierarchy = getFileHierarchy(session, bucket, prefix,
+                                        verbose=verbose)
+    print('walking...')
+    for sourceDir, folder_list, file_list in local_walk:
+        if verbose:
+            print('sourceDir: {}'.format(sourceDir))
+        if len(folder_list) == 0:
+            # then we're in a leaf
+            folder_name = sourceDir.split('/')[-1]
+            print('in leaf: {}'.format(folder_name))
+            if folder_name in remote_hierarchy.keys():
+                # okay so the folder exists, now search for missing files
+                full_key_names = remote_hierarchy[folder_name]
+                short_key_names = [x.split('/')[-1] for x in full_key_names]
+                for file in (set(file_list) - set(short_key_names)):
+                    print('uploading file: {}'.format(sourceDir + '/' + file))
+                    print('to bucket {} as:'.format(bucket))
+                    print('{}'.format(prefix + folder_name + '/' + file))
+                    session.upload_file(sourceDir + '/' + file, bucket,
+                                        prefix + folder_name + '/' + file)
+            else:
+                # create folder on remote
+                if verbose:
+                    print('uploading whole folder: {}'.format(folder_name))
+                for file in file_list:
+                    session.upload_file(sourceDir + '/' + file, bucket,
+                                        prefix + folder_name + '/' + file)
+        else:
+            print('folder list was not empty')
+    return
 
 
 class BatchDownloader:
@@ -79,7 +206,7 @@ class BatchDownloader:
                                  'object for s3_session.')
         # setting up the function to download from Bucket
         from functools import partial
-        self.download = partial(self.s3_session.download_file, Bucket=Bucket)
+        self._download = partial(self.s3_session.download_file, Bucket=Bucket)
         # set up save_directory
         from os import makedirs
         if save_directory is None:
@@ -128,8 +255,8 @@ class BatchDownloader:
             current_key = key_size_df['Key'][file_counter]
             obj_name = current_key.split('/')[-1]
             obj_size = key_size_df['Size'][file_counter]
-            self.download(Key=current_key,
-                          Filename=save_directory + '/' + obj_name)
+            self._download(Key=current_key,
+                           Filename=save_directory + '/' + obj_name)
             file_counter += 1
             size_downloaded += obj_size
             if size_downloaded >= self.max_batch_size:
@@ -144,4 +271,40 @@ class BatchDownloader:
                             'num_files': file_counter - self.file_index,
                             'save_dir': save_directory}
         self.batch_stats[self.batch_number] = this_batch_stats
+        self._last_batch_dir = save_directory
+        return
+
+    def rmLastBatch(self, confirm=False):
+        """
+        rmLastBatch removes the batch last downloaded by the BatchDownloader
+        instance.
+        Input:
+        confirm : if True, ask for confirmation from the user before removing
+                  the batch
+        """
+        if confirm:
+            msg = 'Are you sure you want to remove' + \
+                  ' the batch that was last downloaded? (y/N) '
+            verification = input(msg)
+        else:
+            verification = 'y'
+        if verification == 'y':
+            self._rm(self._last_batch_dir)
+        return
+
+    def _rm(folder):
+        """
+        Internal function to remove a folder and its contents.
+        """
+        import os
+        import shutil
+        for the_file in os.listdir(folder):
+            file_path = os.path.join(folder, the_file)
+            try:
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                print(e)
         return
