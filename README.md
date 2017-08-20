@@ -69,7 +69,10 @@ Data.ipynb`.
 The files, by default, are stored in the directory `bcsa-data/tmp/`. To change
 this behaviour, you can change the value of the `target` variable to a
 different directory. 
-   
+
+## BC Data Workshop: Project Information
+
+To get familiar with accessing data using `boto3`, play around with the data and notebooks accessible via the above instructions. To access the data and reference material for the image classification project, please refer to the documents inside the [workshop-info](./workshop-info/) folder. 
 
 ## Conditions for Use
 
