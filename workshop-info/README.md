@@ -40,7 +40,7 @@ structure capable of state-of-the-art image classification.
 
 Available to you are the following resources:
 
-1. An AWS S3 bucket of approximately 10 000 training images. Aaron will show you how to access this material using `boto3` via [`s3Download.py`](../s3Download.py). 
+1. An AWS S3 bucket of approximately 10 000 training images. Aaron will show you how to access this material using `boto3` via [`s3Download.py`](./../s3Download.py). 
 2. A publicly available implementation of a state of the art [neural network for image classification](https://github.com/fastai/courses/blob/master/deeplearning1/nbs/vgg16.py).
 3. Publicly [available material](https://kratzert.github.io/2017/02/24/finetuning-alexnet-with-tensorflow.html) that could be useful in modifying the above network to take advantage of *transfer learning*.
 4. The above material is implemented in `keras` and `tensorflow`. [Associated methods](https://keras.io/preprocessing/image/) could, perhaps, be chained together (or modified) with `boto3` to help with preprocessing/training.
