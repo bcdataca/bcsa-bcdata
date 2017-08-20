@@ -40,14 +40,41 @@ structure capable of state-of-the-art image classification.
 
 Available to you are the following resources:
 
-1. An AWS S3 bucket of approximately 10 000 training images. Aaron will show you how to access this material using `boto3` via [`s3Download.py`](./../s3Download.py). 
-2. A publicly available implementation of a state of the art [neural network for image classification](https://github.com/fastai/courses/blob/master/deeplearning1/nbs/vgg16.py).
-3. Publicly [available material](https://kratzert.github.io/2017/02/24/finetuning-alexnet-with-tensorflow.html) that could be useful in modifying the above network to take advantage of *transfer learning*.
-4. The above material is implemented in `keras` and `tensorflow`. [Associated methods](https://keras.io/preprocessing/image/) could, perhaps, be chained together (or modified) with `boto3` to help with preprocessing/training.
-5. There's a [plethora](ftp://ftp.cs.wisc.edu/machine-learning/shavlik-group/torrey.handbook09.pdf) of [information](https://medium.com/towards-data-science/transfer-learning-using-keras-d804b2e04ef8) on [transfer learning](https://journalofbigdata.springeropen.com/articles/10.1186/s40537-016-0043-6). This includes the [tensorflow blog](https://www.tensorflow.org/tutorials/image_retraining) and [other online blogs](https://www.analyticsvidhya.com/blog/2017/06/transfer-learning-the-art-of-fine-tuning-a-pre-trained-model/). 
+1. An AWS S3 bucket of approximately 10 000 training images. Aaron
+   will show you how to access this material using `boto3` via
+   [`s3Download.py`](./../s3Download.py).
+2. A publicly available implementation of a state of the art
+   [neural network for image
+   classification](https://github.com/fastai/courses/blob/master/deeplearning1/nbs/vgg16.py).
+3. Publicly
+   [available
+   material](https://kratzert.github.io/2017/02/24/finetuning-alexnet-with-tensorflow.html)
+   that could be useful in modifying the above network to take
+   advantage of *transfer learning*.
+4. The above material is implemented in `keras` and
+   `tensorflow`. [Associated
+   methods](https://keras.io/preprocessing/image/) could, perhaps, be
+   chained together (or modified) with `boto3` to help with
+   preprocessing/training.
+5. There's a
+   [plethora](ftp://ftp.cs.wisc.edu/machine-learning/shavlik-group/torrey.handbook09.pdf)
+   of
+   [information](https://medium.com/towards-data-science/transfer-learning-using-keras-d804b2e04ef8)
+   on [transfer
+   learning](https://journalofbigdata.springeropen.com/articles/10.1186/s40537-016-0043-6). This
+   includes the [tensorflow
+   blog](https://www.tensorflow.org/tutorials/image_retraining) and
+   [other online
+   blogs](https://www.analyticsvidhya.com/blog/2017/06/transfer-learning-the-art-of-fine-tuning-a-pre-trained-model/).
 
 
 Optionally available:
 
-1. Methods for Active Learning with Bayesian CNNs are [available on GitHub](https://github.com/Riashat/Active-Learning-Bayesian-Convolutional-Neural-Networks); [posters](https://riashatislam.files.wordpress.com/2017/07/2017-icml-deep_active_learning-poster.pdf) and [publications](http://bayesiandeeplearning.org/papers/BDL_35.pdf) are available.
-2. If your computational power isn't cutting it, let me know and we can see about other options. 
+1. Methods for Active Learning with Bayesian CNNs are [available on
+   GitHub](https://github.com/Riashat/Active-Learning-Bayesian-Convolutional-Neural-Networks);
+   [posters](https://riashatislam.files.wordpress.com/2017/07/2017-icml-deep_active_learning-poster.pdf)
+   and
+   [publications](http://bayesiandeeplearning.org/papers/BDL_35.pdf)
+   are available.
+2. If your computational power isn't cutting it, let me know and we
+   can see about other options.
